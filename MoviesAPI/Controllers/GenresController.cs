@@ -16,7 +16,6 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        [ServiceFilter(typeof(MyActionFilter))]
         public async Task<ActionResult<List<Genre>>> Get()
         {
             logger.LogInformation("Getting all the genres");
