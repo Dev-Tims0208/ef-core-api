@@ -19,7 +19,7 @@ namespace MoviesAPI.Controllers
             return repository.GetAllGenres();
         }
 
-        [HttpGet]
+        [HttpGet("{Id}")]
         public Genre Get(int Id)
         {
             var genre = repository.GetGenreById(Id);
