@@ -14,13 +14,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        public List<Genre> Get()
+        public ActionResult<List<Genre>> Get()
         {
             return repository.GetAllGenres();
         }
 
         [HttpGet("{Id}")]
-        public Genre Get(int Id)
+        public ActionResult<Genre> Get(int Id)
         {
             var genre = repository.GetGenreById(Id);
 
