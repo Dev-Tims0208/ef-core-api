@@ -13,18 +13,15 @@ namespace MoviesAPI.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IRepository repository;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepository repository)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            this.repository = repository;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            repository.GetAllGenres();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
