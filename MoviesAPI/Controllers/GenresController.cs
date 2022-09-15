@@ -15,6 +15,7 @@ namespace MoviesAPI.Controllers
         public GenresController(ILogger<GenresController> logger, ApplicationDbContext ctx)
         {
             this.logger = logger;
+            this.ctx = ctx;
         }
 
         [HttpGet]
