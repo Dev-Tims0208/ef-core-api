@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using MoviesAPI.Entities;
 using MoviesAPI.Filters;
 
@@ -10,7 +11,8 @@ namespace MoviesAPI.Controllers
     public class GenresController : ControllerBase
     {
         private readonly ILogger<GenresController> logger;
-        public GenresController(ILogger<GenresController> logger)
+        private readonly ApplicationDbContext ctx;
+        public GenresController(ILogger<GenresController> logger, ApplicationDbContext ctx)
         {
             this.logger = logger;
         }
@@ -19,7 +21,7 @@ namespace MoviesAPI.Controllers
         public async Task<ActionResult<List<Genre>>> Get()
         {
             logger.LogInformation("Getting all the genres");
-            return new List<Genre>() { new Genre() { Id = 1, Name = "Comedy" } };
+            return await ctx.Genres.ToListAsync();
         }
 
         [HttpGet("{Id:int}", Name = "getGenre")]
@@ -29,10 +31,11 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost]
-        public void Post()
+        public async Task<ActionResult> Post([FromBody] Genre genre)
         {
-
-            throw new NotImplementedException();
+            ctx.Add(genre);
+            await ctx.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpPut]
