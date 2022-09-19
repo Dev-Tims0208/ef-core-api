@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
         builder
         .WithOrigins("http://localhost:3000")
         //.AllowAnyOrigin()
-        .WithMethods("GET")
+        .WithMethods("*")
         .AllowAnyHeader()
         .WithExposedHeaders(new string[] { "totalAmountOfRecords" });
     });
