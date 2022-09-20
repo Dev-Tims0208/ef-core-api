@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesAPI;
 using MoviesAPI.APIBehavior;
 using MoviesAPI.Filters;
+using MoviesAPI.Helpers;
 
 var policyName = "_myAllowSpecificOrigins";
 
@@ -32,6 +33,8 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -42,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
