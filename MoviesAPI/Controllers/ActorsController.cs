@@ -41,12 +41,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ActorCreationDTO actorCreationDTO)
+        public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDTO)
         {
-            var actor = mapper.Map<Actor>(actorCreationDTO);
-            ctx.Add(actor);
-            await ctx.SaveChangesAsync();
+            //var actor = mapper.Map<Actor>(actorCreationDTO);
+            //ctx.Add(actor);
+            //await ctx.SaveChangesAsync();
             return NoContent();
+            throw new NotImplementedException();
         }
 
         [HttpPut("{Id:int}")]
