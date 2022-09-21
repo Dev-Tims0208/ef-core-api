@@ -6,14 +6,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesAPI;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
 namespace MoviesAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220919073914_Actors")]
-    partial class Actors
+    [Migration("20220921081619_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,7 +42,8 @@ namespace MoviesAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Picture")
                         .IsRequired()
@@ -68,6 +70,28 @@ namespace MoviesAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("MoviesAPI.Entities.MovieTheater", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Point>("Location")
+                        .IsRequired()
+                        .HasColumnType("geography");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MoviesTheaters");
                 });
 #pragma warning restore 612, 618
         }

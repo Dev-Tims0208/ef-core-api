@@ -22,12 +22,6 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
-{
-    var geometryFactory = provider.GetRequiredService<GeometryFactory>();
-    config.AddProfile(new AutoMapperProfiles(geometryFactory));
-}).CreateMapper());
-builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: policyName,
@@ -41,7 +35,11 @@ builder.Services.AddCors(options =>
         .WithExposedHeaders(new string[] { "totalAmountOfRecords" });
     });
 });
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.UseNetTopologySuite()));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration["ConnectionStrings:DefaultConnection"],
+    sqlOptions => sqlOptions.UseNetTopologySuite()));
+builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices
+    .Instance.CreateGeometryFactory(srid: 4392));
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddHttpContextAccessor();
