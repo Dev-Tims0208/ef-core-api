@@ -40,7 +40,7 @@ namespace MoviesAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MoviesTheaters",
+                name: "MovieTheaters",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -50,7 +50,7 @@ namespace MoviesAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MoviesTheaters", x => x.Id);
+                    table.PrimaryKey("PK_MovieTheaters", x => x.Id);
                 });
         }
 
@@ -63,7 +63,7 @@ namespace MoviesAPI.Migrations
                 name: "Genres");
 
             migrationBuilder.DropTable(
-                name: "MoviesTheaters");
+                name: "MovieTheaters");
         }
     }
 }

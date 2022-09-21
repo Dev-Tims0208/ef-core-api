@@ -89,7 +89,7 @@ namespace MoviesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MoviesTheaters");
+                    b.ToTable("MovieTheaters");
                 });
 #pragma warning restore 612, 618
         }
