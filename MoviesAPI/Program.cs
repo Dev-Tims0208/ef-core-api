@@ -36,7 +36,7 @@ builder.Services.AddSingleton(NtsGeometryServices
     .Instance.CreateGeometryFactory(srid: 4326));
 builder.Services.AddCors(options =>
 {
-\    options.AddPolicy(name: policyName,
+    options.AddPolicy(name: policyName,
     builder =>
     {
         builder
