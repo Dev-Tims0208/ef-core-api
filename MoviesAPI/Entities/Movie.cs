@@ -6,6 +6,7 @@ namespace MoviesAPI.Entities
     {
         public int Id { get; set; }
         [StringLength(maximumLength: 75)]
+        [Required]
         public string Title { get; set; }
         public string Summary { get; set; }
         public string Trailer { get; set; }
@@ -15,6 +16,7 @@ namespace MoviesAPI.Entities
 
         public List<MovieGenres> MoviesGenres { get; set; }
         public List<MovieTheatersMovies> MovieTheatersMovies { get; set; }
+        public List<MovieActors> MoviesActors { get; set; }
 
     }
 }
