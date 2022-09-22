@@ -51,29 +51,20 @@ namespace MoviesAPI.Controllers
             return NoContent();
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Post(MovieTheaterCreationDTO movieTheaterCreationDTO)
-        //{
-        //    var movieTheater = mapper.Map<MovieTheater>(movieTheaterCreationDTO);
-        //    ctx.Add(movieTheater);
-        //    await ctx.SaveChangesAsync();
-        //    return NoContent();
-        //}
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, MovieTheaterCreationDTO movieTheaterCreationDTO)
+        {
+            var movieTheater = await ctx.MovieTheaters.FirstOrDefaultAsync(x => x.Id == id);
 
-        //[HttpPut("{id:int")]
-        //public async Task<ActionResult> Put(int id, MovieTheaterCreationDTO movieTheaterCreationDTO)
-        //{
-        //    var movieTheater = await ctx.MoviesTheaters.FirstOrDefaultAsync(x => x.Id == id);
+            if (movieTheater == null)
+            {
+                return NotFound();
+            }
 
-        //    if (movieTheater == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    movieTheater = mapper.Map(movieTheaterCreationDTO, movieTheater);
-        //    await ctx.SaveChangesAsync();
-        //    return NoContent();
-        //}
+            movieTheater = mapper.Map(movieTheaterCreationDTO, movieTheater);
+            await ctx.SaveChangesAsync();
+            return NoContent();
+        }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
