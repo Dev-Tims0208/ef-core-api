@@ -91,11 +91,10 @@ namespace MoviesAPI.Controllers
             AnnotateActorsOrder(movie);
             ctx.Add(movie);
             await ctx.SaveChangesAsync();
-            //return movie.Id;
             return NoContent();
         }
 
-        [HttpGet("putget/{id;int")]
+        [HttpGet("putget/{id:int}")]
         public async Task<ActionResult<MoviePutGetDTO>> PutGet(int id)
         {
             var movieActionResult = await Get(id);
@@ -126,7 +125,7 @@ namespace MoviesAPI.Controllers
             return response;
         }
 
-        [HttpPut("{id:int")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromForm] MovieCreationDTO movieCreationDTO)
         {
             var movie = await ctx.Movies.Include(x => x.MoviesActors)
