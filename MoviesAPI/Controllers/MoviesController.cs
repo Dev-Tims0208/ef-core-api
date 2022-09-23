@@ -150,6 +150,22 @@ namespace MoviesAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var movie = await ctx.Movies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            ctx.Remove(movie);
+            await ctx.SaveChangesAsync();
+            await fileStorageService.DeleteFile(movie.Poster, container);
+            return NoContent();
+        }
+
 
         private void AnnotateActorsOrder(Movie movie)
         {
