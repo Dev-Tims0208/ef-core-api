@@ -23,7 +23,7 @@ namespace MoviesAPI.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost("Create")]
+        [HttpPost("create")]
         public async Task<ActionResult<AuthenticationResponse>> Create([FromBody] UserCredentials userCredentials)
         {
             var user = new IdentityUser
