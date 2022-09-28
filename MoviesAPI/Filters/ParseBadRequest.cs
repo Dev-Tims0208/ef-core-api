@@ -23,6 +23,7 @@ namespace MoviesAPI.Filters
                 {
                     response.Add(badRequestObjectResult.Value.ToString());
                 }
+
                 else if (badRequestObjectResult.Value is IEnumerable<IdentityError> errors)
                 {
                     foreach (var error in errors)
