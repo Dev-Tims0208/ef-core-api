@@ -48,6 +48,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
+});
+
 //var handler = new JwtSecurityTokenHandler();
 //handler.InboundClaimTypeMap.Clear();
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

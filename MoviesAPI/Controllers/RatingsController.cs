@@ -11,6 +11,7 @@ namespace MoviesAPI.Controllers
 {
     [ApiController]
     [Route("api/ratings")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public class RatingsController : ControllerBase
     {
         private readonly ApplicationDbContext ctx;
@@ -38,13 +39,13 @@ namespace MoviesAPI.Controllers
             {
                 var rating = new Rating();
                 rating.MovieId = ratingDTO.MovieId;
-                rating.Rate = ratingDTO.Rating;
+                rating.Rate = ratingDTO.Ratings;
                 rating.UserId = userId;
                 ctx.Add(rating);
             }
             else
             {
-                currentRate.Rate = ratingDTO.Rating;
+                currentRate.Rate = ratingDTO.Ratings;
             }
 
             await ctx.SaveChangesAsync();
