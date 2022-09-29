@@ -10,12 +10,14 @@ using MoviesAPI.Helpers;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 var policyName = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container. 
+
 
 builder.Services.AddControllers(options =>
 {
@@ -25,7 +27,6 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 // add identity config
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -47,6 +48,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+//var handler = new JwtSecurityTokenHandler();
+//handler.InboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
 builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
