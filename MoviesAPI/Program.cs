@@ -1,17 +1,23 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MoviesAPI;
 using MoviesAPI.APIBehavior;
 using MoviesAPI.Filters;
 using MoviesAPI.Helpers;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 var policyName = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container. 
+
 
 builder.Services.AddControllers(options =>
 {
@@ -21,6 +27,37 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// add identity config
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// jwt token
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"])),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
+});
+
+//var handler = new JwtSecurityTokenHandler();
+//handler.InboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+
 builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
 //{

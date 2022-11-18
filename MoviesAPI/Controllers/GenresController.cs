@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ namespace MoviesAPI.Controllers
 {
     [Route("api/genres")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public class GenresController : ControllerBase
     {
         private readonly ILogger<GenresController> logger;
@@ -36,6 +39,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("all")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GenreDTO>>> Get()
         {
             var genres = await ctx.Genres.OrderBy(x => x.Name).ToListAsync();
